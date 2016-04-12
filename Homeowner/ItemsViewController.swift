@@ -8,11 +8,23 @@
 
 import UIKit
 
-class ItemsViewController: UITableViewController
-{
+class ItemsViewController: UITableViewController {
     
+//Properties
     
+    var itemStore: ItemStore!
     
+
+    
+//Methods
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return itemStore.allItems.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        <#code#>
+    }
     
     
     
