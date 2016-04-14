@@ -24,8 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let itemsController = window!.rootViewController as! ItemsViewController
         itemsController.itemStore = itemStore 
         
-        
-        
         return true
     }
 
