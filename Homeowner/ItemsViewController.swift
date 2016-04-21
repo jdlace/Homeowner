@@ -26,8 +26,6 @@ class ItemsViewController: UITableViewController {
         let insets = UIEdgeInsets(top: statusBarHeight, left: 0, bottom: 0, right: 0)
         tableView.contentInset = insets
         tableView.scrollIndicatorInsets = insets
-        
-        print("Hello, World")
     }
     
     @IBAction func addNewItem(sender: AnyObject) {
@@ -71,13 +69,6 @@ class ItemsViewController: UITableViewController {
         
     }
     
-    
-    
-    
-    
-    
-
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return itemStore.allItems.count
@@ -106,17 +97,31 @@ class ItemsViewController: UITableViewController {
             
             let item = itemStore.allItems[indexPath.row]
             
-            //Remove item from the store
-            itemStore.removeItem(item)
+            let title = "Delete \(item.name)?"
+            let message = "Are you sure you want to delete this item?"
             
-            //Also remove that row from teh table view with an animation
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            let ac = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler:nil)
+             ac.addAction(cancelAction)
+            
+            
+            let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: { (action) -> Void in
+            
+        
+                //Remove item from the store
+                self.itemStore.removeItem(item)
+            
+                //Also remove that row from teh table view with an animation
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)})
+            
+            ac.addAction(deleteAction)
+            
+            //Present the alert controller to the itemsViewController
+            presentViewController(ac, animated: true, completion: nil)
+        
         }
     }
-    
-    
-    
-    
     
     
     
