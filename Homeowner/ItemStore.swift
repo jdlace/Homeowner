@@ -11,10 +11,7 @@ class ItemStore {
 //Methods
     
     init() {
-        
-        for _ in 0..<5 {
-            createItem()
-        }
+            
     }
 
     
