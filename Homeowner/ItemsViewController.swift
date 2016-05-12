@@ -26,6 +26,8 @@ class ItemsViewController: UITableViewController {
         let insets = UIEdgeInsets(top: statusBarHeight, left: 0, bottom: 0, right: 0)
         tableView.contentInset = insets
         tableView.scrollIndicatorInsets = insets
+        
+       tableView.rowHeight = 65
     }
     
     @IBAction func addNewItem(sender: AnyObject) {
@@ -78,11 +80,21 @@ class ItemsViewController: UITableViewController {
         
 
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("UITableViewCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath) as! ItemCell
+        
+        //update the label for dynamic type
+        cell.updateLabels()
+        
+        
         let item = itemStore.allItems[indexPath.row]
         
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = "$\(item.valueInDollars)"
+        //cell.textLabel?.text = item.name
+        //cell.detailTextLabel?.text = "$\(item.valueInDollars)"
+        
+        //Configure the cell with the Item
+        cell.nameLabel.text  = item.name
+        cell.serialNumber.text = item.serialNumber
+        cell.valueLabel.text = "$\(item.valueInDollars)"
         
         return cell
 
@@ -131,11 +143,24 @@ class ItemsViewController: UITableViewController {
     }
     
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //If the triggered segue is the ShowItem segue
+        if segue.identifier == "ShowItem" {
+            
+            //Figure out which row was just tapped
+            if let row = tableView.indexPathForSelectedRow?.row {
+                
+                //Get the item associated with this row and pass it along
+                let item = itemStore.allItems[row]
+                let detailViewController = segue.destinationViewController as! DetailViewController
+                detailViewController.item = item
+            }
+        
+        }
     
     
-    
-    
-    
+    }
     
     
     
