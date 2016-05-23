@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var nameField: UITextField!
     
@@ -18,6 +18,10 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var dateLabel: UILabel!
     
+    @IBAction func backgroundTapped(sender: UITapGestureRecognizer) {
+        
+        view.endEditing(true)
+    }
     
     var item: Item!
     
@@ -38,10 +42,6 @@ class DetailViewController: UIViewController {
         return formatter
     }()
     
-    
-    
-
-    
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
@@ -53,8 +53,32 @@ class DetailViewController: UIViewController {
         
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        
+        //Clear first repsonder
+        view.endEditing(true)
+        
+        //"Save" changes to item
+        item.name = nameField.text ?? ""
+        item.serialNumber = serialNumberField.text
+        
+        if let valueText = valueField.text,
+            value = numberFormatter.numberFromString(valueText) {
+            item.valueInDollars = value.integerValue
+        }
+            
+        else {
+            
+            item.valueInDollars = 0
+            
+        }
+    }
     
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     
     
